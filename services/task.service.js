@@ -1,6 +1,6 @@
-import Task from './Task.js';
+import Task from '../models/Task.js';
 
-class PostService {
+class TaskService {
     async create(task) {
         const createdTask = await Task.create(task);
         return createdTask;
@@ -38,4 +38,4 @@ class PostService {
     }
 }
 
-export default new PostService();
+export default new TaskService();

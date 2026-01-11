@@ -1,3 +1,8 @@
 .env
+.git
 node_modules
 package-lock.json
+.vscode
+.idea
+build
+dist
