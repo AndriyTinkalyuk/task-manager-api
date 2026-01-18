@@ -1,20 +1,27 @@
 import request from 'supertest';
 import app from '../../src/app.js';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 // Загальні хуки для всіх тестів
 beforeAll(async () => {
-    if (process.env.DB_URL) {
-        await mongoose.connect(process.env.DB_URL);
-    }
+    mongo = await MongoMemoryServer.create();
+    const uri = mongo.getUri();
+
+    await mongoose.connect(uri);
 });
 
-afterAll(async () => {
+afterEach(async () => {
+    const collections = await mongoose.connection.db.collections();
+    for (const collection of collections) {
+      await collection.deleteMany({});
+    }
+  });
+  
+  afterAll(async () => {
     await mongoose.connection.close();
-});
+    await mongo.stop();
+  });
 
 describe("Task API", () => {
 
