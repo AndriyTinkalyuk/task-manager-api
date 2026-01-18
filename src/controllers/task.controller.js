@@ -7,6 +7,7 @@ import ApiError from '../error/ApiError.js';
             const task = await TaskService.create(req.body);
             return res.status(201).json(task);
         } catch (error) {
+            console.error('Error creating task:', error);
             next(ApiError.BadRequest('Error creating task'));
         }
     }

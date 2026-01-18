@@ -2,6 +2,7 @@ import request from 'supertest';
 import app from '../../src/app.js';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
+let mongo;
 
 // Загальні хуки для всіх тестів
 beforeAll(async () => {
