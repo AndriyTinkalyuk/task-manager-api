@@ -16,6 +16,7 @@ import ApiError from '../error/apiError.js';
             const tasks = await TaskService.getAll();
             return res.status(200).json(tasks);
         } catch (error) {
+            console.error('Error getting tasks:', error);
             next(ApiError.NotFound('Error getting tasks'));
         }
     }
@@ -28,6 +29,7 @@ import ApiError from '../error/apiError.js';
           }
           return res.status(200).json(task);
         } catch (error) {
+            console.error('Error getting task:', error);
             next(ApiError.NotFound('Error getting task'));
         }
     }
@@ -41,6 +43,7 @@ import ApiError from '../error/apiError.js';
         }
         return res.status(200).json(updatedTask);
     } catch (error) { 
+        console.error('Error updating task:', error);
         next(ApiError.BadRequest('Error updating task'));
     }
     }
@@ -53,6 +56,7 @@ import ApiError from '../error/apiError.js';
             }
             return res.status(200).json(deletedTask);
         } catch (error) {
+            console.error('Error deleting task:', error);
             next(ApiError.NotFound('Error deleting task'));
         }
     }

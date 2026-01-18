@@ -1,14 +1,15 @@
 import Task from '../models/Task.js';
+import TaskMapper from '../mappers/task.mapper.js';
 
 class TaskService {
     async create(task) {
-        const createdTask = await Task.create(task);
-        return createdTask;
+        const createdTask = await Task.create(TaskMapper.toCreate(task));
+        return TaskMapper.toResponse(createdTask);
     }
 
     async getAll() {
             const tasks = await Task.find();
-            return tasks;
+            return TaskMapper.toResponseList(tasks);
     }
 
     async getOne(id) {
@@ -16,7 +17,7 @@ class TaskService {
             throw new Error('ID is required');
         }
         const Foundtask = await Task.findById(id);
-        return Foundtask;
+        return TaskMapper.toResponse(Foundtask);
         
     }
 
@@ -24,8 +25,8 @@ class TaskService {
         if(!id) {
             throw new Error('ID is required');
         }
-        const updatedTask = await Task.findByIdAndUpdate(id, task, { new: true } );
-        return updatedTask;
+        const updatedTask = await Task.findByIdAndUpdate(id, TaskMapper.toUpdate(task), { new: true } );
+        return TaskMapper.toResponse(updatedTask);
     }
 
     async delete(id) {
@@ -34,7 +35,7 @@ class TaskService {
         }
 
         const deletedTask = await Task.findByIdAndDelete(id);
-        return deletedTask;
+        return TaskMapper.toResponse(deletedTask);
     }
 }
 
