@@ -1,25 +1,12 @@
-import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-
-import router from './src/routes/index.js';
-import cors from 'cors';
-import ErrorHandling from './src/middleware/ErrorHandlingMiddleWare.js';
+import app from './app.js';
 dotenv.config();
-
 const PORT = process.env.PORT || 3000;
 const DB_URL = process.env.DB_URL;
 
-const app = express();
 
-app.use(cors());
-app.use(express.json());
-
-app.use('/api', router);
-
-app.use(ErrorHandling);
-
-async function startApp() {
+async function startServer() {
     try {
         await mongoose.connect(DB_URL);
         console.log("DB NAME >>>", mongoose.connection.db.databaseName);
@@ -31,4 +18,4 @@ async function startApp() {
     }
 }
 
-startApp();
+startServer();
