@@ -24,7 +24,7 @@ import ApiError from '../error/apiError.js';
         try {
           const task = await TaskService.getOne(req.params.id);
           if (!task) {
-            return next(ApiError.NotFound('id is required'));
+            return next(ApiError.NotFound('Task not found'));
           }
           return res.status(200).json(task);
         } catch (error) {
@@ -34,7 +34,11 @@ import ApiError from '../error/apiError.js';
 
     async update(req, res, next) {
         try {
-        const updatedTask = await TaskService.update(req.body);
+        const updatedTask = await TaskService.update(req.params.id, req.body);
+
+        if (!updatedTask) {
+            return next(ApiError.NotFound('Task not found'));
+        }
         return res.status(200).json(updatedTask);
     } catch (error) { 
         next(ApiError.BadRequest('Error updating task'));
@@ -45,7 +49,7 @@ import ApiError from '../error/apiError.js';
         try {
             const deletedTask = await TaskService.delete(req.params.id);
             if (!deletedTask) {
-                return next(ApiError.NotFound('id is required'));
+                return next(ApiError.NotFound('Task not found'));
             }
             return res.status(200).json(deletedTask);
         } catch (error) {

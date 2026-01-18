@@ -20,11 +20,11 @@ class TaskService {
         
     }
 
-    async update(task) {
-        if(!task._id) {
+    async update(id, task) {
+        if(!id) {
             throw new Error('ID is required');
         }
-        const updatedTask = await Task.findByIdAndUpdate(task._id, task, { new: true } );
+        const updatedTask = await Task.findByIdAndUpdate(id, task, { new: true } );
         return updatedTask;
     }
 
